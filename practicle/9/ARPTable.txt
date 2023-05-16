@@ -1,1 +1,6 @@
-_gateway (172.16.5.1) at 12:34:56:78:9a:bc [ether] on eth0
+Interface: 192.168.1.10 --- 0x2
+  Internet Address      Physical Address      Type
+  192.168.1.1           00-0e-2e-5c-7a-0a     dynamic
+  192.168.1.2           00-15-c5-4b-8f-2f     dynamic
+  192.168.1.5           00-21-cc-f8-5e-2f     dynamic
+  192.168.1.7           00-1d-d9-b1-7e-50     dynamic
