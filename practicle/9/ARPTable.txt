@@ -1,0 +1,1 @@
+_gateway (172.16.5.1) at 12:34:56:78:9a:bc [ether] on eth0
