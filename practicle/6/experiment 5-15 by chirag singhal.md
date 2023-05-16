@@ -155,104 +155,6 @@ We have studied the Network Simulator 2 (NS2) in detail.
 
 <div style="page-break-after: always;"></div>
 
-<!--
-EXPERIMENT 6
-Simulation of Distance Vector/Link State Routing.
-a) Distance Vector routing protocol ROUTING
-Aim:
-To simulate and study the link state routing algorithm using simulation using NS2.
-Routing is the process of selecting best paths in a network. In the past, the term
-routing was also used to mean forwarding network traffic among networks. However this
-latter function is muchbetter described as simply forwarding. Routing is performed for
-many kinds of networks, including the telephone network (circuit switching), electronic
-data networks (such as the Internet), and transportation networks. This article is concerned
-primarily with routing in electronic data networks using packet switching technology
-.In packet switching networks, routing directs packet forwarding (the transit of logically
-addressed network packets from their source toward their ultimate destination) through
-intermediate nodes. Intermediate nodes are typically network hardware devices such as
-routers, bridges, gateways, firewalls, or switches. General-purpose computers can also
-forward packets and perform routing, though they are not specialized hardware and may
-suffer from limited performance. The routing process usually directs forwarding on the
-basis of routing tables which maintain a record of the routes to various network destinations.
-Thus, constructing routing tables, which are held in the router's memory, is very important
-for efficient routing. Most routing algorithms use only one network path at a time.
-Multipath routing techniques enable the use of multiple alternative paths. In case of
-overlapping/equal routes, the following elements are considered in order to decide
-which routes get installed into the routing table (sorted by priority):
-1. Prefix-Length: where longer subnet masks are preferred (independent of whether it is
-within a routing
-protocol or over different routing protocol)
-2. Metric: where a lower metric/cost is preferred (only valid within one and the same
-routing protocol)
-3. Administrative distance: where a lower distance is preferred (only valid between
-different routing protocols) Routing, in a more narrow sense of the term, is often
-contrasted with bridging in its assumption that network addresses are structured and that
-similar addresses imply proximity within the network. Structured addresses allow a single
-routing table entry to represent the route to a group of devices. In large networks,
-Distance Vector routing protocol
-structured addressing (routing, in the narrow sense) outperforms unstructured
-addressing (bridging). Routing has become the dominant form of addressing on the
-Internet. Bridging is still widely used within localized environments.
-Algorithm
-There are several variants of flooding algorithm. Most work roughly
-as follows:
-1. Each node acts as both a transmitter and a receiver.
-2. Each node tries to forward every message to every one of its neighbours except the
-source node. This results in every message eventually being delivered to all reachable
-parts of the network. Algorithms may need to be more complex than this, since, in
-some case, precautions have to be taken to avoid wasted duplicate deliveries and
-infinite loops, and to allow messages to eventually expire from the system. A variant
-of flooding called selective flooding partially addresses these issues by only sending
-packets to routers in the same direction. In selective flooding the routers don't send
-every incoming packet on every line but only on those lines which are going
-approximately in the right direction.
-Program:
-set ns [new Simulator]
-set nf [open out.nam w]
-$ns namtrace-all $nf
-set tr [open out.tr w]
-$ns trace-all $tr
-proc finish {} {
-global nf ns tr
-$ns flush-trace
-close $tr
-exec nam out.nam &
-exit 0
-}
-set n0 [$ns node]
-set n1 [$ns node]
-set n2 [$ns node]
-set n3 [$ns node]
-$ns duplex-link $n0 $n1 10Mb 10ms DropTail
-$ns duplex-link $n1 $n3 10Mb 10ms DropTail
-$ns duplex-link $n2 $n1 10Mb 10ms DropTail
-$ns duplex-link-op $n0 $n1 orient right-down
-$ns duplex-link-op $n1 $n3 orient right
-$ns duplex-link-op $n2 $n1 orient right-up
-set tcp [new Agent/TCP]
-$ns attach-agent $n0 $tcp
-set ftp [new Application/FTP]
-$ftp attach-agent $tcp
-set sink [new Agent/TCPSink]
-$ns attach-agent $n3 $sink
-set udp [new Agent/UDP]
-$ns attach-agent $n2 $udp
-set cbr [new Application/Traffic/CBR]
-$cbr attach-agent $udp
-set null [new Agent/Null]
-$ns attach-agent $n3 $null
-$ns connect $tcp $sink
-$ns connect $udp $null
-$ns rtmodel-at 1.0 down $n1 $n3
-$ns rtmodel-at 2.0 up $n1 $n3
-$ns rtproto DV
-$ns at 0.0 "$ftp start"
-$ns at 0.0 "$cbr start"
-$ns at 5.0 "finish"
-$ns run
-Result:
-Thus the Distance Vector Routing Algorithm was Simulated and studied -->
-
 # Experiment 6 (a)
 
 ## Aim
@@ -449,10 +351,6 @@ The Link State Routing Algorithm was successfully simulated and studied using NS
 
 To implement Stop and Wait Protocol and Sliding Window Protocol.
 
-## Stop and Wait Protocol
-
-Stop and Wait Protocol is a flow control protocol in which a sender sends one packet of data to the receiver and then waits for an acknowledgment from the receiver.
-
 ### Code
 
 #### Sender
@@ -482,13 +380,11 @@ class StopWaitSender {
             myps.println(i);
             BufferedReader bf = new BufferedReader(new InputStreamReader(myskt.getInputStream()));
             String ack = bf.readLine();
-
             if (ack != null) {
                 System.out.println("Acknowledgement was Received from receiver");
                 i++;
                 Thread.sleep(4000);
-            } else {
-                myps.println(i);
+            } else {  myps.println(i);
             }
         }
     }
@@ -701,85 +597,6 @@ Thus, we have studied the various types of flow control protocols and implemente
 
 <div style="page-break-after: always;"></div>
 
-<!-- EXPERIMENT 8
-Study of Socket Programming and Client – Server model
-Java Socket programming is used for communication between the applications running on
-different JRE. Java Socket programming can be connection-oriented or connection-less. The
-client in socket programming must know two information: IP Address of Server, and Port
-number.
-Here, we are going to make one-way client and server communication. In this application,
-client sends a message to the server, server reads the message and prints it. Here, two classes
-are being used: Socket and ServerSocket. The Socket class is used to communicate client and
-server. Through this class, we can read and write message. The ServerSocket class is used at
-server-side. The accept() method of ServerSocket class blocks the console until the client is
-connected. After the successful connection of client, it returns the instance of Socket at serverside.
-Socket class
-A socket is simply an endpoint for communications between the machines. The Socket class
-can be used to create a socket.
-Important methods
-Method Description
-1) public InputStream getInputStream() returns the InputStream attached with this socket.
-2)public OutputStream getOutputStream() returns the OutputStream attached with this socket.
-3) public synchronized void close() closes this socket
-ServerSocket class
-The ServerSocket class can be used to create a server socket. This object is used to establish
-communication with the clients.
-Important methods
-Method Description
-1) public Socket accept() returns the socket and establish a connection between server and
-client.
-2) public
-close()
-synchronized void closes the server socket.
-Example of Java Socket Programming
-Creating Server:
-To create the server application, we need to create the instance of ServerSocket class. Here,
-we are using 6666 port number for the communication between the client and server. You
-may also choose any other port number. The accept() method waits for the client. If clients
-connects with the given port number, it returns an instance of Socket.
-1. ServerSocket ss=new ServerSocket(6666);
-2. Socket s=ss.accept();//establishes connection and waits for the client
-Creating Client:
-To create the client application, we need to create the instance of Socket class. Here, we need
-to pass the IP address or hostname of the Server and a port number. Here, we are using
-"localhost" because our server is running on same system.
-1. Socket s=new Socket("localhost",6666);
-Let's see a simple of Java socket programming where client sends a text and server receives
-and prints it.
-File: MyServer.java
-import java.io.*;
-import java.net.*;
-File: MyClient.java
-import java.io.*;
-import java.net.*;
-public class MyServer {
-public static void main(String[] args){
-try{
-ServerSocket ss=new ServerSocket(6666);
-Socket s=ss.accept();//establishes connection
-public class MyClient {
-public static void main(String[] args) {
-try{
-Socket s=new Socket("localhost",6666);
-DataInputStream dis=new
-DataInputStream(s.getInputStream());
-DataOutputStream dout=new
-DataOutputStream(s.getOutputStream());
-String str=(String)dis.readUTF();
-System.out.println("message= "+str);
-dout.writeUTF("Hello Server");
-dout.flush();
-ss.close();
-dout.close();
-s.close();
-}catch(Exception e){System.out.println(e);}
-}
-}
-}catch(Exception e){System.out.println(e);}
-}
-}
- -->
-
 # EXPERIMENT 8
 
 ## Aim
@@ -869,115 +686,6 @@ Thus, we have studied Socket Programming and Client-Server model in Java. Socket
 
 <div style="page-break-after: always;"></div>
 
-<!-- EXPERIMENT 9
-Write a code simulating ARP /RARP protocols.
-This program automatically creates a file with the IP address of machines, their MAC address
-and type.
-ARP protocol is simulated by reading an IP address and returning the MAC address. RARP
-protocol is simulated by reading an MAC address and returning the IP address
-The program can be extended to read an IP Address / Mac Address and a message and send a
-packet to the specified machine using TCP / IP or Datagram sockets
-import java.io.*;
-import java.util.*;
-public class arp_rarp
-{
-private static final String Command = "arp -a";
-public static void getARPTable(String cmd) throws Exception
-{
-File fp = new File("ARPTable.txt");
-FileWriter fw = new FileWriter(fp);
-BufferedWriter bw = new BufferedWriter(fw);
-Process P = Runtime.getRuntime().exec(cmd);
-Scanner S = new Scanner(P.getInputStream()).useDelimiter("\\A");
-while(S.hasNext())
-bw.write(S.next());
-bw.close();
-fw.close();
-}
-public static void findMAC(String ip) throws Exception
-{
-File fp = new File("ARPTable.txt");
-FileReader fr = new FileReader(fp);
-BufferedReader br = new BufferedReader(fr);
-String line;
-while ((line = br.readLine()) != null)
-{
-if (line.contains(ip))
-{
-System.out.println("Internet Address Physical Address Type");
-System.out.println(line);
-break;
-}
-}
-if((line == null))
-System.out.println("Not found");
-fr.close();
-br.close();
-}
-public static void findIP(String mac) throws Exception
-{
-File fp = new File("ARPTable.txt");
-FileReader fr = new FileReader(fp);
-BufferedReader br = new BufferedReader(fr);
-String line;
-while ((line = br.readLine()) != null)
-{
-if (line.contains(mac))
-{
-System.out.println("Internet Address Physical Address Type");
-System.out.println(line);
-break;
-}
-}
-if((line == null))
-System.out.println("Not found");
-fr.close();
-br.close();
-}
-public static void main(String as[]) throws Exception
-{
-getARPTable(Command);
-Scanner S = new Scanner(System.in);
-System.out.println("ARP Protocol.");
-System.out.print("Enter IP Address: ");
-String IP = S.nextLine();
-findMAC(IP);
-System.out.println("RARP Protocol.");
-System.out.print("Enter MAC Address: ");
-String MAC = S.nextLine();
-findIP(MAC);
-}
-}
-OUTPUT:
->javac arp_rarp.java
->java arp_rarp
-ARP Protocol.
-Enter IP Address: 10.0.15.253
-Internet Address Physical Address Type
-10.0.15.253 00-16-76-bd-41-27 dynamic
-RARP Protocol.
-Enter MAC Address: 01-00-5e-00-00-fc
-Internet Address Physical Address Type
-224.0.0.252 01-00-5e-00-00-fc static
->java arp_rarp
-ARP Protocol.
-Enter IP Address: 10.0.15.121
-Not found
-RARP Protocol.
-Enter MAC Address: 01-00-5e-00-00-ff
-Not found
-ARPTable.txt
-Interface: 10.0.15.202 --- 0x3
-Internet Address Physical Address Type
-10.0.15.1 54-78-1a-1e-6a-4f dynamic
-10.0.15.72 00-13-20-b7-49-c9 dynamic
-10.0.15.253 00-16-76-bd-41-27 dynamic
-10.0.15.255 ff-ff-ff-ff-ff-ff static
-224.0.0.22 01-00-5e-00-00-16 static
-224.0.0.251 01-00-5e-00-00-fb static
-224.0.0.252 01-00-5e-00-00-fc static
-239.255.255.250 01-00-5e-7f-ff-fa static
- -->
 
 # EXPERIMENT 9
 
@@ -1074,7 +782,7 @@ Interface: 192.168.1.10 --- 0x2
 
 ## Output
 
-[output](https://i.imgur.com/o31oIxM.png)
+![Output](https://i.imgur.com/o31oIxM.png)
 
 ## Conclusion
 
@@ -1082,71 +790,11 @@ In this experiment, we have learned about ARP and RARP protocols and how they ca
 
 <div style="page-break-after: always;"></div>
 
-<!-- EXPERIMENT 10
-(a) Write a code simulating PING commands
-Algorithm
-Step 1: start the program.
-Step 2: Include necessary package in java.
-Step 3: To create a process object p to implement the ping command.
-Step 4: declare one BufferedReader stream class object.
-Step 5: Get thedetails of the server
-5.1: length of the IP address.
-5.2: time required to get the details.
-5.3: send packets , receive packets and lost packets.
-5.4: minimum ,maximum and average times.
-Step 6: print the results.
-Step 7:Stop the program.
-Program:
-import java.io.*;
-import java.net.*;
-class pingserver
-{
-public static void main(String args[])
-{
-try
-{
-String str;
-System.out.print(" Enter the IP Address to be Ping : ");
-BufferedReader buf1=new BufferedReader(new
-InputStreamReader(System.in));
-String ip=buf1.readLine();
-Runtime H=Runtime.getRuntime();
-Process p=H.exec("ping " + ip);
-InputStream in=p.getInputStream();
-BufferedReader buf2=new BufferedReader(new
-InputStreamReader(in));
-while((str=buf2.readLine())!=null)
-{
-System.out.println(" " + str);
-}
-}
-catch(Exception e)
-{
-System.out.println(e.getMessage());
-}
-}
-}
-Output:
-Enter the IP address to the ping:192.168.0.1
-Pinging 192.168.0.1: with bytes of data =32
-Reply from 192.168.0.11:bytes=32 time<1ms TTL =128
-Reply from 192.168.0.11:bytes=32 time<1ms TTL =128
-Reply from 192.168.0.11:bytes=32 time<1ms TTL =128
-Reply from 192.168.0.11:bytes=32 time<1ms TTL =128
-Ping statistics for 192.168.0.1
-Packets: sent=4,received=4,lost=0(0% loss),approximate round trip time in milli seconds:
-Minimum=1
-ms,maximum=4ms,average=2ms -->
-
 # EXPERIMENT 10 (a)
 
 ## Aim
 
 The aim of this experiment is to write a Java program that simulates the PING command.
-
-## Theory
-
-The ping command is a Command Prompt command used to test the ability of the source computer to reach a specified destination computer.
 
 ## Algorithm
 
@@ -1154,11 +802,7 @@ The ping command is a Command Prompt command used to test the ability of the sou
 2. Import necessary packages in Java.
 3. Create a Process object to implement the PING command.
 4. Declare a BufferedReader stream class object.
-5. Get the details of the server:
-   1. Length of the IP address.
-   2. Time required to get the details.
-   3. Send packets, receive packets, and lost packets.
-   4. Minimum, maximum, and average times.
+5. Get the details of the server.
 6. Print the results.
 7. Stop the program.
 
@@ -1207,66 +851,10 @@ Approximate round trip times in milli-seconds:
 
 ## Conclusion
 
-In this experiment, we have learned how to simulate the PING command using Java programming language. The program prompts the user to enter an IP address and then sends PING packets to the specified IP address. The program then receives and displays the response from the IP address, including details such as the time it took to receive a response, the number of packets sent and received, and the percentage of packets lost. The program can be useful for network troubleshooting and testing.
+In this experiment, we have learned how to simulate the PING command using Java programming language.
 
 <div style="page-break-after: always;"></div>
 
-<!-- EXPERIMENT 10 (b)
-Write a code simulating Traceroute commands
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-public class traceroutecmd
-{
-public static void runSystemCommand(String command)
-{
-try
-{
-Process p = Runtime.getRuntime().exec(command);
-BufferedReader inputStream = new BufferedReader(
-new InputStreamReader(p.getInputStream()));
-String s = "";
-while ((s = inputStream.readLine()) != null)
-System.out.println(s);
-}
-catch (Exception e)
-{
-}
-}
-public static void main(String[] args)
-{
-// String ip = "www.google.co.in";
-// String ip = "127.0.0.1";
-String ip = "www.drranurekha.com";
-runSystemCommand("tracert " + ip);
-}
-}
-OUTPUT:
->javac traceroutecmd.java
->java traceroutecmd
-Tracing route to drranurekha.com [160.153.137.167] over a maximum of 30 hops:
-1 <1 ms <1 ms <1 ms 10.0.15.1
-2 <1 ms <1 ms <1 ms 10.0.0.15
-3 1 ms 1 ms 1 ms 210.212.247.209
-4 2 ms 1 ms 1 ms 172.24.75.102
-5 * * 21 ms 218.248.235.217
-6 * * 12 ms 218.248.235.218
-7 21 ms 21 ms 21 ms 121.244.37.253.static.chennai.vsnl.net.in [121.244.37.253]
-8 * * * Request timed out.
-9 49 ms 49 ms 49 ms 172.25.81.134
-10 50 ms 50 ms 70 ms ix-ae-0-4.tcore1.mlv-mumbai.as6453.net [180.87.38.5]
-11 165 ms 165 ms 165 ms if-ae-9-5.tcore1.wyn-marseille.as6453.net [80.231.217.17]
-12 172 ms 171 ms 171 ms if-ae-8-1600.tcore1.pye-paris.as6453.net [80.231.217.6]
-13 171 ms 171 ms 171 ms if-ae-15-2.tcore1.av2-amsterdam.as6453.net
-[195.219.194.145]
-14 175 ms 175 ms 175 ms 195.219.194.2
-15 171 ms 170 ms 170 ms po72.bbsa0201-01.bbn.mgmt.ams1.gdg [188.121.33.74]
-16 170 ms 169 ms 169 ms 10.241.131.203
-17 175 ms 175 ms 175 ms 10.253.1.1
-18 166 ms 166 ms 166 ms 10.253.130.9
-19 173 ms 173 ms 173 ms 10.253.130.3
-20 169 ms 169 ms 169 ms 10.253.130.5
-21 169 ms 169 ms 169 ms ip-160-153-137-167.ip.secureserver.net [160.153.137.167]
-Trace complete -->
 
 # EXPERIMENT 10 (b)
 
@@ -1276,7 +864,7 @@ The aim of this experiment is to write a Java program that simulates the TRACERT
 
 ## Theory
 
-The TRACERT command is used to trace the route to a destination IP address or domain name. It is similar to the PING command, but it also displays the route that the packets take to reach the destination. The TRACERT command is useful for troubleshooting network connectivity issues.
+The TRACERT command is used to trace the route to a destination IP address or domain name.
 
 ## Algorithm
 
@@ -1346,87 +934,9 @@ Trace complete.
 
 ## Conclusion
 
-In this experiment, we have learned how to simulate the TRACERT command using Java programming language. The program prompts the user to enter a domain name or IP address to trace the route to and then executes the TRACERT command using the runSystemCommand method. The program then receives and displays the response from the specified domain name or IP address, including details such as the number of hops, the time it took to reach each hop, and the IP address of each hop. The program can be useful for network troubleshooting and testing.
+In this experiment, we have learned how to simulate the TRACERT command using Java programming language.
 
 <div style="page-break-after: always;"></div>
-
-<!-- EXPERIMENT 11
-Create a socket for HTTP for web page upload and download.
-Algorithm
-1.Start the program.
-2.Get the frame size from the user
-3.To create the frame based on the user request.
-4.To send frames to server from the client side.
-5.If your frames reach the server it will send ACK signal to client otherwise it will send
-NACK signal to client.
-6.Stop the program
-Program :
-Client
-import javax.swing.*;
-import java.net.*;
-import java.awt.image.*;
-import javax.imageio.*;
-import java.io.*;
-import java.awt.image.BufferedImage; import java.io.ByteArrayOutputStream; import
-java.io.File;
-import java.io.IOException; import javax.imageio.ImageIO;
-public class Client{
-public static void main(String args[]) throws Exception{ Socket soc;
-BufferedImage img = null;
-soc=new Socket("localhost",4000);
-System.out.println("Client is running. ");
-try {
-System.out.println("Reading image from disk. ");
-img = ImageIO.read(new File("digital_image_processing.jpg")); ByteArrayOutputStream
-baos = new ByteArrayOutputStream();
-ImageIO.write(img, "jpg", baos);
-baos.flush();
-byte[] bytes = baos.toByteArray(); baos.close();
-System.out.println("Sending image to server. ");
-OutputStream out = soc.getOutputStream();
-DataOutputStream dos = new DataOutputStream(out);
-dos.writeInt(bytes.length);
-dos.write(bytes, 0, bytes.length);
-System.out.println("Image sent to server. ");
-dos.close();
-out.close();
-}catch (Exception e) { System.out.println("Exception: " + e.getMessage());
-soc.close();
-}
-soc.close();
-}
-}
-Server
-import java.net.*;
-import java.io.*;
-import java.awt.image.*;
-import javax.imageio.*;
-import javax.swing.*;
-class Server {
-public static void main(String args[]) throws Exception{
-ServerSocket server=null;
-Socket socket;
-server=new ServerSocket(4000);
-System.out.println("Server Waiting for image");
-socket=server.accept(); System.out.println("Client connected.");
-InputStream in = socket.getInputStream();
-DataInputStream dis = new DataInputStream(in);
-int len = dis.readInt();
-System.out.println("Image Size: " + len/1024 + "KB"); byte[] data = new byte[len];
-dis.readFully(data);
-dis.close();
-in.close();
-InputStream ian = new ByteArrayInputStream(data);
-BufferedImage bImage = ImageIO.read(ian);
-JFrame f = new JFrame("Server");
-ImageIcon icon = new ImageIcon(bImage);
-JLabel l = new JLabel();
-l.setIcon(icon);
-f.add(l);
-f.pack();
-f.setVisible(true); } }
-
--->
 
 # EXPERIMENT 11
 
@@ -1537,96 +1047,6 @@ class Server {
 In this experiment, we have learned how to create a socket for HTTP for web page upload and download using Java programming language. The program prompts the user to enter a frame size and creates a frame based on the user request. The client then sends the frames to the server using a socket, and the server receives the frames and displays the image in a JFrame. The program can be useful for transmitting images over a network.
 
 <div style="page-break-after: always;"></div>
-
-<!-- EXPERIMENT 12
-Write a program to implement RPC (Remote Procedure Call)
-A remote procedure call is an inter-process communication technique that is used for clientserver based applications. It is also known as a subroutine call or a function call.
-A client has a request message that the RPC translates and sends to the server. This request
-may be a procedure or a function call to a remote server. When the server receives the request,
-it sends the required response back to the client. The client is blocked while the server is
-processing the call and only resumed execution after the server is finished.
-The sequence of events in a remote procedure call are given as follows −
-• The client stub is called by the client.
-• The client stub makes a system call to send the message to the server and puts the
-parameters in the message.
-• The message is sent from the client to the server by the client’s operating system.
-• The message is passed to the server stub by the server operating system.
-• The parameters are removed from the message by the server stub.
-• Then, the server procedure is called by the server stub.
-HelloWorld.java
-package
-rpc_helloworld;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import javax.jws.soap.SOAPBinding.Style;
-@WebService
-@SOAPBinding(style = Style.RPC)
-public interface HelloWorld {
-@WebMethod String getHelloWorld(String name);
-}
-HelloWorldImpl.java
-package
-rpc_helloworld;
-import javax.jws.WebService;
-@WebService(endpointInterface =
-"rpc_helloworld.HelloWorld")
-public class HelloWorldImpl implements HelloWorld{
-@Override
-public String getHelloWorld(String name) {
-return name;
-}
-}
-Publisher.java
-package
-rpc_helloworld;
-import javax.xml.ws.Endpoint;
-public class Publisher {
-public static void main(String[] args) {
-Endpoint.publish("http://localhost:7779/ws/hello",
-new HelloWorldImpl());
-}
-}
-rpc_helloworld.java
-package
-rpc_helloworld;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-public class RPC_HelloWorld {
-public static void main(String[] args) {
-try {
-//Refer to wsdl document
-URL url = new
-URL("http://localhost:7779/ws/hello?wsdl");
-//Refer to wsdl document
-QName qname = new
-QName("http://rpc_helloworld/",
-"HelloWorldImplService");
-Service service = Service.create(url,
-qname);
-HelloWorld hello =
-service.getPort(HelloWorld.class);
-System.out.println(hello.getHelloWorld("Hello
-World!"));
-} catch (MalformedURLException ex) {
-System.out.println("WSDL document url
-error: " + ex);
-}
-}
-}
-After create all these files, you need to run your Publisher.Java and then go to your browser
-and type the following:
-http://localhost:7779/ws/hello?wsdl
-Then you will get the response in XML format. After that you need to copy the text that assign
-for targetNamespace.
-Then paste the text in your Client side file, as the QName first parameter. Now run your
-program and you will get the output.
-[https://sivakumar-prasanth.medium.com/java-rpc-remote-procedure-call-99cfaca34c36]
-  -->
 
 # EXPERIMENT 12
 
@@ -1739,74 +1159,6 @@ In this experiment, we have learned how to implement Remote Procedure Call (RPC)
 
 <div style="page-break-after: always;"></div>
 
-<!-- EXPERIMENT 13
-Implementation of Subnetting.
-import java.util.Scanner;
-class Subnet{
-public static void main(String args[]){
-Scanner sc = new Scanner(System.in);
-System.out.print(“Enter the ip address: “);
-String ip = sc.nextLine();
-String split_ip[] = ip.split(“\\.”); //SPlit the string after every .
-String split_bip[] = new String[4]; //split binary ip
-String bip = “”;
-for(int i=0;i<4;i++){
-split_bip[i] = appendZeros(Integer.toBinaryString(Integer.parseInt(split_ip[i]))); // “18” => 18
-=> 10010 => 00010010
-bip += split_bip[i];
-}
-System.out.println(“IP in binary is “+bip);
-System.out.print(“Enter the number of addresses: “);
-int n = sc.nextInt();
-//Calculation of mask
-int bits = (int)Math.ceil(Math.log(n)/Math.log(2)); /*eg if address = 120, log 120/log 2 gives
-log to the base 2 => 6.9068, ceil gives us upper integer */
-System.out.println(“Number of bits required for address = “+bits);
-int mask = 32-bits;
-System.out.println(“The subnet mask is = “+mask);
-//Calculation of first address and last address
-int fbip[] = new int[32];
-for(int i=0; i<32;i++) fbip[i] = (int)bip.charAt(i)-48; //convert cahracter 0,1 to integer 0,1
-for(int i=31;i>31-bits;i–)//Get first address by ANDing last n bits with 0
-fbip[i] &= 0;
-String fip[] = {“”,””,””,””};
-for(int i=0;i<32;i++)
-fip[i/8] = new String(fip[i/8]+fbip[i]);
-System.out.print(“First address is = “);
-for(int i=0;i<4;i++){
-System.out.print(Integer.parseInt(fip[i],2));
-if(i!=3) System.out.print(“.”);
-}
-System.out.println();
-int lbip[] = new int[32];
-for(int i=0; i<32;i++) lbip[i] = (int)bip.charAt(i)-48; //convert cahracter 0,1 to integer 0,1
-for(int i=31;i>31-bits;i–)//Get last address by ORing last n bits with 1
-lbip[i] |= 1;
-String lip[] = {“”,””,””,””};
-for(int i=0;i<32;i++)
-lip[i/8] = new String(lip[i/8]+lbip[i]);
-System.out.print(“Last address is = “);
-for(int i=0;i<4;i++){
-System.out.print(Integer.parseInt(lip[i],2));
-if(i!=3) System.out.print(“.”);
-}
-System.out.println();
-}
-static String appendZeros(String s){
-String temp = new String(“00000000”);
-return temp.substring(s.length())+ s;
-}
-}
-/*Output
-Enter the ip address: 100.110.150.10
-IP in binary is 01100100011011101001011000001010
-Enter the number of addresses: 7
-Number of bits required for address = 3
-The subnet mask is = 29
-First address is = 100.110.150.8
-Last address is = 100.110.150.15
-*/
--->
 
 # EXPERIMENT 13
 
@@ -1898,142 +1250,6 @@ In this experiment, we implemented subnetting in Java.
 
 <div style="page-break-after: always;"></div>
 
-<!-- EXPERIMENT 14 A
-IMPLEMENTATION OF TCP/IP ECHO.ALGORITHM
-Server
-1. Create a server socket and bind it to port.
-2. Listen for new connection and when a connection arrives, accept it.
-3. Read the data from client.
-4. Echo the data back to the client.
-5. Repeat steps 4-5 until „bye‟ or „null‟ is read.
-6. Close all streams.
-7. Close the server socket.
-8. Stop.
-Client
-1. Create a client socket and connect it to the server‟s port number.
-2. Get input from user.
-3. If equal to bye or null, then go to step 7.
-4. Send user data to the server.
-5. Display the data echoed by the server.
-6. Repeat steps 2-4.
-7. Close the input and output streams.
-8. Close the client socket.
-9. Stop.
-OUTPUT
-Server:
-$ javac tcpechoserver.java
-$ java tcpechoserver
-Server Ready Client Connected Client [ hello ]
-Client [ how are you ] Client [ i am fine ] Client [ ok ]
-Client Disconnected
-Client :
-$ javac tcpechoclient.java
-$ java tcpechoclient
-Type "bye" to quit
-Enter msg to server : hello
-Server [ hello ]
-Enter msg to server : how are you
-Server [ how are you ]
-Enter msg to server : i am fine
-Server [ i am fine ]
-Enter msg to server : ok
-Server [ ok ]
-Enter msg to server : bye
-/ TCP Echo Server--tcpechoserver.java
-import java.net.*;
-import java.io.*;
-public class tcpechoserver
-{
-public static void main(String[] arg) throws
-IOException
-{
-ServerSocket sock = null;
-BufferedReader fromClient = null;
-OutputStreamWriter toClient = null;
-Socket client = null;
-try
-{
-sock = new ServerSocket(4000);
-System.out.println("Server Ready");
-client = sock.accept();
-System.out.println("Client Connected");
-fromClient = new BufferedReader(new
-InputStreamReader(client.getInputStream()));
-toClient = new
-OutputStreamWriter(client.getOutputStream());
-String line;
-while (true)
-{
-line = fromClient.readLine();
-if ( (line == null) || line.equals("bye"))
-break;
-System.out.println ("Client [ " + line + " ]");
-toClient.write("Server [ "+ line +" ]\n");
-toClient.flush();
-}
-fromClient.close();
-toClient.close();
-client.close();
-sock.close();
-System.out.println("Client Disconnected");
-}
-catch (IOException ioe)
-{
-System.err.println(ioe);
-}
-}
-}
-//TCP Echo Client--tcpechoclient.java
-import java.net.*;
-import java.io.*;
-public class tcpechoclient
-{
-public static void main(String[] args) throws
-IOException
-{
-BufferedReader fromServer = null, fromUser =
-null;
-PrintWriter toServer = null;
-Socket sock = null;
-try
-{
-if (args.length == 0)
-sock = new
-Socket(InetAddress.getLocalHost(),4000);
-else
-sock = new
-Socket(InetAddress.getByName(args[0]),4000);
-fromServer = new BufferedReader(new
-InputStreamReader(sock.getInputStream()));
-fromUser = new BufferedReader(new
-InputStreamReader(System.in));
-toServer = new
-PrintWriter(sock.getOutputStream(),true);
-String Usrmsg, Srvmsg;
-System.out.println("Type \"bye\" to quit");
-while (true)
-{
-System.out.print("Enter msg to server : ");
-Usrmsg = fromUser.readLine();
-if (Usrmsg==null || Usrmsg.equals("bye"))
-{
-toServer.println("bye"); break;
-}
-else
-toServer.println(Usrmsg);
-Srvmsg = fromServer.readLine();
-System.out.println(Srvmsg);
-}
-fromUser.close();
-fromServer.close();
-toServer.close();
-sock.close();
-}
-catch (IOException ioe)
-{
-System.err.println(ioe);
-}
- -->
 
 # EXPERIMENT 14
 
@@ -2188,56 +1404,6 @@ The TCP/IP echo algorithm was successfully implemented using Java sockets. The s
 
 <div style="page-break-after: always;"></div>
 
-<!-- XPERIMENT 15
-Program to implement DNS in java
-import java.net.*;
-import java.io.*;
-import java.util.*;
-public class DNS
-{
-public static void main(String[] args)
-{
-int n;
-BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-do
-{
-System.out.println("\n Menu: \n 1. DNS 2. Reverse DNS 3. Exit \n");
-System.out.println("\n Enter your choice");
-n = Integer.parseInt(System.console().readLine());
-if(n==1)
-{
-try
-{
-System.out.println("\n Enter Host Name ");
-String hname=in.readLine();
-InetAddress address;
-address = InetAddress.getByName(hname);
-System.out.println("Host Name: " + address.getHostName());
-System.out.println("IP: " + address.getHostAddress());
-}
-catch(IOException ioe)
-{
-ioe.printStackTrace();
-}
-}
-if(n==2)
-{
-try
-{
-System.out.println("\n Enter IP address");
-String ipstr = in.readLine();
-InetAddress ia = InetAddress.getByName(ipstr);
-System.out.println("IP: "+ipstr);
-System.out.println("Host Name: " +ia.getHostName());
-}
-catch(IOException ioe)
-{
-ioe.printStackTrace();
-}
-}
-}while(!(n==3));
-}
-} -->
 # EXPERIMENT 15
 
 ## Aim
