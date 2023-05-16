@@ -862,10 +862,6 @@ In this experiment, we have learned how to simulate the PING command using Java 
 
 The aim of this experiment is to write a Java program that simulates the TRACERT command.
 
-## Theory
-
-The TRACERT command is used to trace the route to a destination IP address or domain name.
-
 ## Algorithm
 
 1. Start the program.
@@ -890,11 +886,7 @@ public class traceroutecmd {
             BufferedReader inputStream = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String s = "";
             while ((s = inputStream.readLine()) != null)
-                System.out.println(s);
-        } catch (Exception e) {
-        }
-    }
-
+                System.out.println(s); } catch (Exception e) {}}
     public static void main(String[] args) {
         String ip = "www.drranurekha.com";
         System.out.println("Tracing route to " + ip + " over a maximum of 30 hops:");
@@ -1054,9 +1046,18 @@ In this experiment, we have learned how to create a socket for HTTP for web page
 
 The aim of this experiment is to write a program to implement RPC (Remote Procedure Call) in Java.
 
-## Introduction
+## Theory
 
 Remote Procedure Call (RPC) is an inter-process communication technique used in client-server applications. It allows a client to call a procedure or a function on a remote server as if it were a local function call. The sequence of events in an RPC involves the client making a request to the server, the server processing the request, and sending back a response to the client.
+
+## Algorithm
+
+1. Start the program.
+2. Create an interface for the client and server.
+3. Create a class that implements the interface.
+4. Create a publisher that publishes the server.
+5. Create a client that calls the server.
+6. Stop the program.
 
 ## Code
 
@@ -1165,6 +1166,21 @@ In this experiment, we have learned how to implement Remote Procedure Call (RPC)
 ## Aim
 
 The aim of this experiment is to implement subnetting in Java.
+
+## Theory
+
+Subnetting is the process of dividing a network into smaller networks called subnets. It is used to improve network performance and security. Subnetting is done by borrowing bits from the host portion of the IP address. The number of bits borrowed depends on the number of subnets required. The number of hosts per subnet is calculated by subtracting 2 from the number of bits borrowed. The subnet mask is calculated by converting the borrowed bits to 1 and the remaining bits to 0.
+
+## Algorithm
+
+1. Start the program.
+2. Accept the IP address and number of addresses from the user.
+3. Convert the IP address to binary.
+4. Calculate the number of bits required for the address.
+5. Calculate the number of bits required for the subnet mask.
+6. Calculate the subnet mask.
+7. Calculate the number of hosts per subnet.
+8. Stop the program.
 
 ## Code
 
@@ -1287,15 +1303,13 @@ The aim of this experiment is to implement TCP/IP echo algorithm using Java sock
 ```java
 import java.net.*;
 import java.io.*;
-
 public class tcpechoserver {
     public static void main(String[] arg) throws IOException {
         ServerSocket sock = null;
         BufferedReader fromClient = null;
         OutputStreamWriter toClient = null;
         Socket client = null;
-        try {
-            sock = new ServerSocket(4000);
+        try {sock = new ServerSocket(4000);
             System.out.println("Server Ready");
             client = sock.accept();
             System.out.println("Client Connected");
@@ -1309,17 +1323,12 @@ public class tcpechoserver {
                 System.out.println("Client [ " + line + " ]");
                 toClient.write("Server [ " + line + " ]\n");
                 toClient.flush();
-            }
-            fromClient.close();
+            }fromClient.close();
             toClient.close();
             client.close();
             sock.close();
             System.out.println("Client Disconnected");
-        } catch (IOException ioe) {
-            System.err.println(ioe);
-        }
-    }
-}
+        } catch (IOException ioe) {System.err.println(ioe); }  } }
 ```
 
 ### TCP Echo Client - tcpechoclient.java
@@ -1333,8 +1342,7 @@ public class tcpechoclient {
         BufferedReader fromServer = null, fromUser = null;
         PrintWriter toServer = null;
         Socket sock = null;
-        try {
-            if (args.length == 0)
+        try {if (args.length == 0)
                 sock = new Socket(InetAddress.getLocalHost(), 4000);
             else
                 sock = new Socket(InetAddress.getByName(args[0]), 4000);
@@ -1400,7 +1408,7 @@ Enter msg to server : bye
 
 ## Conclusion
 
-The TCP/IP echo algorithm was successfully implemented using Java sockets. The server listens for incoming connections and echoes back whatever data it receives from the client until the client sends the "bye" or "null" message. The client sends data to the server and displays the echoed data until the user types "bye" or "null".
+The TCP/IP echo algorithm was successfully implemented using Java sockets.
 
 <div style="page-break-after: always;"></div>
 
@@ -1452,10 +1460,6 @@ public class DNS {
     }
 }
 ```
-
-## Explanation
-
-The program starts by taking input from the user in the form of a menu. The user is given the option to choose between DNS, reverse DNS, or to exit the program. If the user selects the DNS option, the program prompts the user to enter a host name. The program then uses the `getByName()` method of the `InetAddress` class to obtain an IP address object for the specified host name. The program outputs the host name and IP address of the specified host name. If the user selects the reverse DNS option, the program prompts the user to enter an IP address. The program then uses the `getByName()` method of the `InetAddress` class to obtain a host name object for the specified IP address. The program outputs the IP address and host name of the specified IP address. The program continues to loop until the user selects the exit option.
 
 ## Output
 
