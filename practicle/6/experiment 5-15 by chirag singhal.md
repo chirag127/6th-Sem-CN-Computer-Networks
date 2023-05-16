@@ -149,9 +149,26 @@ To schedule events, use the `at` method of the simulator as follows:
 $ns at <time> <event>
 ```
 
+### Simulation
+
+To run the simulation, use the `run` method of the simulator as follows:
+
+```tcl
+$ns run
+```
+
+### Visualization
+
+To visualize the simulation, use the `nam` program as follows:
+
+```bash
+nam <trace file>
+```
+
 ## Result
 
 We have studied the Network Simulator 2 (NS2) in detail.
+
 
 <div style="page-break-after: always;"></div>
 
@@ -796,6 +813,10 @@ In this experiment, we have learned about ARP and RARP protocols and how they ca
 
 The aim of this experiment is to write a Java program that simulates the PING command.
 
+## Theory
+
+The PING command is used to check the connectivity between two machines. It sends a packet to the specified machine and waits for a response. If the machine is connected, it will respond with a packet. In this experiment, we will write a Java program that simulates the PING command.
+
 ## Algorithm
 
 1. Start the program.
@@ -1262,7 +1283,7 @@ class Subnet {
 
 ## Conclusion
 
-In this experiment, we implemented subnetting in Java.
+In this experiment, we implemented subnetting in Java. We accepted the IP address and number of addresses from the user. We then converted the IP address to binary and calculated the number of bits required for the address. We then calculated the number of bits required for the subnet mask and calculated the subnet mask. We then calculated the number of hosts per subnet. The program can be useful for implementing subnetting in Java.
 
 <div style="page-break-after: always;"></div>
 
@@ -1417,6 +1438,10 @@ The TCP/IP echo algorithm was successfully implemented using Java sockets.
 ## Aim
 
 The aim of this experiment is to implement DNS (Domain Name System) in Java.
+
+## Theory
+
+The Domain Name System (DNS) is a hierarchical and decentralized naming system for computers, services, or other resources connected to the Internet or a private network. It associates various information with domain names assigned to each of the participating entities. Most prominently, it translates more readily memorized domain names to the numerical IP addresses needed for locating and identifying computer services and devices with the underlying network protocols.
 
 ## Code
 
