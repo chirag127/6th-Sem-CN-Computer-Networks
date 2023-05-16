@@ -169,7 +169,6 @@ nam <trace file>
 
 We have studied the Network Simulator 2 (NS2) in detail.
 
-
 <div style="page-break-after: always;"></div>
 
 # Experiment 6 (a)
@@ -703,7 +702,6 @@ Thus, we have studied Socket Programming and Client-Server model in Java. Socket
 
 <div style="page-break-after: always;"></div>
 
-
 # EXPERIMENT 9
 
 ## Aim
@@ -875,7 +873,6 @@ Approximate round trip times in milli-seconds:
 In this experiment, we have learned how to simulate the PING command using Java programming language.
 
 <div style="page-break-after: always;"></div>
-
 
 # EXPERIMENT 10 (b)
 
@@ -1181,7 +1178,6 @@ In this experiment, we have learned how to implement Remote Procedure Call (RPC)
 
 <div style="page-break-after: always;"></div>
 
-
 # EXPERIMENT 13
 
 ## Aim
@@ -1286,7 +1282,6 @@ class Subnet {
 In this experiment, we implemented subnetting in Java. We accepted the IP address and number of addresses from the user. We then converted the IP address to binary and calculated the number of bits required for the address. We then calculated the number of bits required for the subnet mask and calculated the subnet mask. We then calculated the number of hosts per subnet. The program can be useful for implementing subnetting in Java.
 
 <div style="page-break-after: always;"></div>
-
 
 # EXPERIMENT 14
 
