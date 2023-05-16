@@ -1,4 +1,4 @@
-# Expeiment 5
+# Experiment 5
 
 ## Aim
 
