@@ -786,9 +786,11 @@ s.close();
 
 The aim of this experiment is to study Socket Programming and Client-Server model.
 
-## Introduction
+## Theory
 
 Java Socket programming is used for communication between the applications running on different JRE. Java Socket programming can be connection-oriented or connection-less. The client in socket programming must know two pieces of information: IP address of the server and port number. Here, we are going to make one-way client and server communication. In this application, the client sends a message to the server, the server reads the message, and prints it.
+
+![iamge](https://static.javatpoint.com/core/images/socket-programming.png)
 
 ## Socket Class
 
@@ -1142,6 +1144,10 @@ ms,maximum=4ms,average=2ms -->
 
 The aim of this experiment is to write a Java program that simulates the PING command.
 
+## Theory
+
+The ping command is a Command Prompt command used to test the ability of the source computer to reach a specified destination computer.
+
 ## Algorithm
 
 1. Start the program.
@@ -1267,6 +1273,10 @@ Trace complete -->
 ## Aim
 
 The aim of this experiment is to write a Java program that simulates the TRACERT command.
+
+## Theory
+
+The TRACERT command is used to trace the route to a destination IP address or domain name. It is similar to the PING command, but it also displays the route that the packets take to reach the destination. The TRACERT command is useful for troubleshooting network connectivity issues.
 
 ## Algorithm
 
@@ -1423,6 +1433,10 @@ f.setVisible(true); } }
 ## Aim
 
 The aim of this experiment is to create a socket for HTTP for web page upload and download.
+
+## Theory
+
+Create a socket for HTTP for web page upload and download.
 
 ## Algorithm
 
